@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Dario Santoni"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/png" href="codice-pelavicino-logo.png"/>
+		<link rel="stylesheet" href="leaflet/leaflet.css" />
+		<script src="leaflet/leaflet.js"></script>
+		<link rel="stylesheet" href="style.css"/>
+		<script src="jquery-3.7.1.min.js"></script>
+		<title>Codice Pelavicino - Mappa dei luoghi</title>
+	</head>
+	<body>
+	
+		<div class="container">
+		
+			<header class="header">
+			
+				<a class="home-link" href="https://pelavicino.labcd.unipi.it/" title="Codice Pelavicino. Edizione Digitale" rel="home"  target="_blank">
+
+					<img id="logo" src="https://pelavicino.labcd.unipi.it/wp-content/themes/twentythirteen-child-for-pelavicino-site/img/codice-pelavicino-logo.png">
+					<div class="box-title">
+						<h1 class="site-title">Codice Pelavicino</h1>
+						<h2 class="site-description">Edizione Digitale</h2>
+					</div>
+
+				</a>
+				
+				<div class="navbar">
+				
+					<ul class="menu" id="menu">
+						<li class="li1"><a href="index.html" class="selezionato">Mappa dei luoghi</a></li>
+						<li class="li1 liRicerca2_2"><a href="ricerca.html" class="nonSelezionato">Ricerca entità nominate</a></li>
+						<li class="liRicerca2"><a href="ricerca.html" class="nonSelezionato">Ricerca entità</a></li>
+						<li class="li2"><a href="https://pelavicino.labcd.unipi.it/" class="nonSelezionato" target="_blank">Codice Pelavicino - Edizione Digitale</a></li>
+						<li class="li2"><a href="https://pelavicino.labcd.unipi.it/evt" class="nonSelezionato" target="_blank">EVT – Codice Pelavicino Digital</a></li>
+					</ul>
+					
+				</div>
+			
+			</header>
+			
+			<div class="container1-2">
+			
+				<h1 class="entry-title">Mappa dei luoghi</h1>
+		
+				<div class="container2 containerMappa">
+			
+					<div id="map"></div>
+					
+					<div class="range_container">
+						<h3 class="titoloSlider">Filtra per il periodo di tempo in cui è avvenuta la prima attestazione</h3>
+						<div class="sliders_control">
+							<input id="fromSlider" class="" type="range" value="900" min="900" max="1487"/>
+							<input id="toSlider" class="sliderBackground" type="range" value="1487" min="900" max="1487"/>
+						</div>
+						<div class="form_control">
+							<div class="form_control_container">
+								<div class="form_control_container__time">Min</div>
+								<input class="form_control_container__time__input" type="number" id="fromInput" value="900" min="900" max="1487"/>
+							</div>
+							<div class="form_control_container">
+								<div class="form_control_container__time">Max</div>
+								<input class="form_control_container__time__input" type="number" id="toInput" value="1487" min="900" max="1487"/>
+							</div>
+						</div>
+						
+						<h3 class="titoloSlider2">Filtra per il numero di occorrenze del luogo</h3>
+						<div class="sliders_control">
+							<input id="fromSliderOccorrenze" type="range" value="1" min="1" max="236"/>
+							<input id="toSliderOccorrenze" type="range" value="236" min="1" max="236"/>
+						</div>
+						<div class="form_control">
+							<div class="form_control_container">
+								<div class="form_control_container__time">Min</div>
+								<input class="form_control_container__time__input" type="number" id="fromInputOccorrenze" value="1" min="1" max="236"/>
+							</div>
+							<div class="form_control_container">
+								<div class="form_control_container__time">Max</div>
+								<input class="form_control_container__time__input" type="number" id="toInputOccorrenze" value="236" min="1" max="236"/>
+							</div>
+						</div>
+						
+						<br><br>
+						<a id="linkDownloadCSV" class="linkDownloadCSV">Scarica la lista dei luoghi visualizzati (<span id="numeroRisultati"></span> luoghi)</a>
+						
+					</div>
+				
+				</div>
+				
+				<div class="testoMappa">
+					<p class="paragrafoRicerca1">
+						All’interno del Codice Pelavicino sono menzionate persone, enti, luoghi e altri tipi di dati. Nella pagina "codifica" si può vedere quali entità sono state marcate e 
+						quali sono andate a comporre gli indici dinamici consultabili nell’edizione.
+						Tuttavia, a prescindere da questi strumenti di corredo, la marcatura presenta un potenziale informativo ancora inesplorato, che necessita di ulteriori elaborazioni per essere usufruito. 
+						Ad esempio, la codifica delle entità di luogo non contiene di per sé le coordinate geografiche, che però sono calcolabili attraverso l’identificazione col toponimo moderno, quando presente.
+					</p>
+					<p class="paragrafoRicerca2">
+						Abbiamo quindi realizzato una mappa interattiva dei luoghi, che visualizza attraverso dei punti i luoghi attestati nel codice di cui è conosciuto il toponimo moderno corrispondente. 
+						È possibile interagire con ogni luogo, per vedere le informazioni relative all’entità codificata; inoltre è possibile filtrare i luoghi visualizzati per il periodo di tempo in cui è 
+						avvenuta la prima attestazione o per il numero di occorrenze totali.
+						È infine possibile scaricare la lista di luoghi visualizzati che rispondono ai requisiti dei filtri, in forma tabellare e in formato CSV.	
+					</p>
+				</div>
+			
+			</div>
+			
+			<footer class="footer">
+			
+				<div class="footer2">
+					
+						Codice Pelavicino - Edizione Digitale © 2015 - 2024 - Dario Santoni, d.santoni4@studenti.unipi.it
+						<br>
+						Questo sito è distributo sotto licenze diversificate per testi e immagini <a href="https://pelavicino.labcd.unipi.it/il-progetto/dati-editoriali-e-licenze">Creative Commons: CC BY-NC e CC BY-NCND</a>.
+						<br>
+						Per maggiori informazioni e per le autorizzazioni richieste si consulti la pagina <a href="https://pelavicino.labcd.unipi.it/il-progetto/dati-editoriali-e-licenze">dati editoriali e licenze</a>
+					
+				</div>
+				
+			</footer>
+			
+		</div>
+		
+		<script>
+			
+			var annoMin=900;
+			var annoMax=1487;
+			
+			var occorrenzeMin=1;
+			var occorrenzeMax=236;
+			
+			var datiCSVPoint=[];
+			var datiCSVDistrict=[];
+			
+			var indiceValori="";
+			var indicePoint="id,Settlement,PlaceName (Nome moderno),District,Longitudine,Latitudine,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+			var indiceValoriDistrict="";
+			var indiceDistrict="District,Numero occorrenze district,Luoghi Occorrenza,\n";
+		
+			function downloadCSV(){
+				var downloadLink = document.createElement("a");
+				var blob = new Blob(["\ufeff", datiCSVPoint]);
+				var url = URL.createObjectURL(blob);
+				downloadLink.href = url;
+				downloadLink.download = "risultatoMappaPoint.csv";
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+				
+				downloadLink = document.createElement("a");
+				blob = new Blob(["\ufeff", datiCSVDistrict]);
+				url = URL.createObjectURL(blob);
+				downloadLink.href = url;
+				downloadLink.download = "risultatoMappaDistrict.csv";
+				document.body.appendChild(downloadLink);
+				downloadLink.click();
+				document.body.removeChild(downloadLink);
+			}
+		
+			function creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax) {
+				var contatorePoint=0;
+				
+				indicePoint="id,Settlement,PlaceName (Nome moderno),District,Longitudine,Latitudine,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+				
+				var indiceFiltri='"Filtri applicati: ';		
+				indiceFiltri=indiceFiltri+"Prima occorrenza da: "+annoMin+", ";
+				indiceFiltri=indiceFiltri+"Prima occorrenza a: "+annoMax+", ";
+				indiceFiltri=indiceFiltri+"Numero occorrenze limite minore: "+occorrenzeMin+', ';
+				indiceFiltri=indiceFiltri+"Numero occorrenze limite maggiore: "+occorrenzeMax+'"';
+				
+				indicePoint=indicePoint+indiceFiltri+",\n";
+				
+				datiCSVPoint=[];
+				
+				indiceValori="";
+				indiceValori=indiceValori+indicePoint;
+			
+				points.clearLayers();
+	
+				var geoJsonSoloPoint;
+				
+				var provaJSON;
+
+				fetch("/json/outputPlaceGeoJsonSoloPoint.json")
+				  .then(res => res.json())
+				  .then(data => {
+					geoJsonSoloPoint = data;
+				   })
+				  .then(() => {
+					L.geoJSON(geoJsonSoloPoint,{
+						onEachFeature: function(feature, layer){
+							contatorePoint=contatorePoint+1;
+							var valoriPoint=feature.properties.idLuogo+',"'+feature.properties.settlement+'","'+feature.properties.placeName+'","'+feature.properties.district+'",'+feature.properties.longitudine+","+feature.properties.latitudine+","+feature.properties.documentoPrimaAttestazione+","+feature.properties.dataDocumentoPrimaAttestazione+","+feature.properties.numeroOccorrenze+',"';
+							
+							var testoPopUp="<span class='noWrap'><span class='boldPopUp'>idLuogo</span>: "+feature.properties.idLuogo+"</span><br> <span class='noWrap'><span class='boldPopUp'>settlement (Toponimo antico)</span>: "+feature.properties.settlement+"</span><br> <span class='noWrap'><span class='boldPopUp'>placeName (Toponimo moderno)</span>: "+feature.properties.placeName+"</span><br> <span class='noWrap'><span class='boldPopUp'>district (Comune/zona)</span>: "+feature.properties.district+"</span><br> <span class='noWrap'><span class='boldPopUp'>Note</span>: "+feature.properties.note+"</span><br> <span class='noWrap'><span class='boldPopUp'>Longitudine</span>: "+feature.properties.longitudine+"</span><br> <span class='noWrap'><span class='boldPopUp'>Latitudine</span>: "+feature.properties.latitudine+"</span><br> <span class='noWrap'><span class='boldPopUp'>Documento di prima attestazione</span>: "+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+feature.properties.documentoPrimaAttestazione+'" target="_blank">'+feature.properties.documentoPrimaAttestazione+'</a>'+"</span><br> <span class='noWrap'><span class='boldPopUp'>Data del documento di prima attestazione</span>: "+feature.properties.dataDocumentoPrimaAttestazione+"</span><br> <span class='noWrap'><span class='boldPopUp'>Numero occorrenze nei documenti</span>: "+feature.properties.numeroOccorrenze+"</span><br> <span class='boldPopUp'>Documenti occorrenza</span>: ";
+							
+							for(let i=0; i<feature.properties.fileOccorrenza.length; ++i) {
+								var linkDoc='<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+feature.properties.fileOccorrenza[i]+'" target="_blank">'+feature.properties.fileOccorrenza[i]+'</a>';
+								testoPopUp=testoPopUp+" "+linkDoc;
+								
+								valoriPoint=valoriPoint+feature.properties.fileOccorrenza[i];
+								
+								if(i!=feature.properties.fileOccorrenza.length-1){
+									valoriPoint=valoriPoint+",";
+								}
+							}
+							
+							valoriPoint=valoriPoint+'"\n';
+							
+							indiceValori=indiceValori+valoriPoint;
+						
+							layer.bindPopup(testoPopUp);
+							
+							$('#numeroRisultati').text(contatorePoint);
+						}
+					,
+						filter: function(feature, layer) {
+							
+							var annoTemp=feature.properties.dataDocumentoPrimaAttestazione.match(/\d{4}/);
+							annoTemp=parseInt(annoTemp);
+							
+							var occorrenzeTemp=parseInt(feature.properties.numeroOccorrenze);
+							
+							if(annoTemp >= annoMin && annoTemp <=annoMax && occorrenzeTemp >= occorrenzeMin && occorrenzeTemp <= occorrenzeMax ){
+								return true;
+							}
+							
+						}
+					}).addTo(points);
+					datiCSVPoint.push(indiceValori);
+				   });
+			}
+		
+			var points = L.layerGroup();
+			var districts = L.layerGroup();
+		
+			var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			});
+			
+			// initialize the map
+			var map = L.map('map', {
+				center: [45.29246, 12.5736108],
+				zoom: 5,
+				layers: [osm, points, districts]
+			});
+			
+			creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax);
+			
+			var geoJsonSoloDistrict;
+			
+			indiceValoriDistrict="";
+			indiceValoriDistrict=indiceValoriDistrict+indiceDistrict;
+			
+			fetch("/json/outputPlaceGeoJsonSoloDistrict.json")
+			  .then(res => res.json())
+			  .then(data => {
+				geoJsonSoloDistrict = data;
+			   })
+			  .then(() => {
+				L.geoJSON(geoJsonSoloDistrict,{
+					onEachFeature: function(feature, layer){
+						var valoriDistrict='"'+feature.properties.district+'",'+feature.properties.numeroLuoghiDistrict+',"'+feature.properties.luogoOccorrenza+'",\n';
+					
+						layer.bindPopup("district: "+feature.properties.district+"<br> numeroLuoghiDistrict: "+feature.properties.numeroLuoghiDistrict+"<br> luogoOccorrenza: "+feature.properties.luogoOccorrenza);
+						
+						indiceValoriDistrict=indiceValoriDistrict+valoriDistrict;
+					}
+				}).addTo(districts);
+				datiCSVDistrict.push(indiceValoriDistrict);
+			   });
+
+			var baseMaps = {
+				"OpenStreetMap": osm
+			};
+
+			const overlays = {
+				'Points': points,
+				'Districts': districts
+			};
+
+			var layerControl = L.control.layers(baseMaps, overlays,{collapsed:false}).addTo(map);
+			
+			function controlFromInput(fromSlider, fromInput, toInput, controlSlider, tipoDato) {
+				const [from, to] = getParsed(fromInput, toInput);
+				fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+				if (from > to) {
+					fromSlider.value = to;
+					fromInput.value = to;
+				} else {
+					fromSlider.value = from;
+				}
+				if(tipoDato == "anni"){
+					annoMin=from;
+					annoMax=to;
+				}else if(tipoDato == "occorrenze"){
+					occorrenzeMin=from;
+					occorrenzeMax=to;
+				}
+				
+				creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax);
+			}
+		
+			function controlToInput(toSlider, fromInput, toInput, controlSlider, tipoDato) {
+				const [from, to] = getParsed(fromInput, toInput);
+				fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+				setToggleAccessible(toInput);
+				if (from <= to) {
+					toSlider.value = to;
+					toInput.value = to;
+				} else {
+					toInput.value = from;
+				}
+				if(tipoDato == "anni"){
+					annoMin=from;
+					annoMax=to;
+				}else if(tipoDato == "occorrenze"){
+					occorrenzeMin=from;
+					occorrenzeMax=to;
+				}
+				
+				creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax);
+			}
+
+			function controlFromSlider(fromSlider, toSlider, fromInput, tipoDato) {
+			  const [from, to] = getParsed(fromSlider, toSlider);
+			  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+			  if (from > to) {
+				fromSlider.value = to;
+				fromInput.value = to;
+			  } else {
+				fromInput.value = from;
+			  }
+			
+				if(tipoDato == "anni"){
+					annoMin=from;
+					annoMax=to;
+				}else if(tipoDato == "occorrenze"){
+					occorrenzeMin=from;
+					occorrenzeMax=to;
+				}
+				
+				creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax);
+			}
+
+			function controlToSlider(fromSlider, toSlider, toInput, tipoDato) {
+			  const [from, to] = getParsed(fromSlider, toSlider);
+			  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+			  setToggleAccessible(toSlider);
+			  if (from <= to) {
+				toSlider.value = to;
+				toInput.value = to;
+			  } else {
+				toInput.value = from;
+				toSlider.value = from;
+			  }
+				if(tipoDato == "anni"){
+					annoMin=from;
+					annoMax=to;
+				}else if(tipoDato == "occorrenze"){
+					occorrenzeMin=from;
+					occorrenzeMax=to;
+				}
+				
+				creaMarker(annoMin, annoMax, occorrenzeMin, occorrenzeMax);
+			}
+
+			function getParsed(currentFrom, currentTo) {
+			  const from = parseInt(currentFrom.value, 10);
+			  const to = parseInt(currentTo.value, 10);
+			  return [from, to];
+			}
+
+			function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+				const rangeDistance = to.max-to.min;
+				const fromPosition = from.value - to.min;
+				const toPosition = to.value - to.min;
+				controlSlider.style.background = `linear-gradient(
+				  to right,
+				  ${sliderColor} 0%,
+				  ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
+				  ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
+				  ${rangeColor} ${(toPosition)/(rangeDistance)*100}%, 
+				  ${sliderColor} ${(toPosition)/(rangeDistance)*100}%, 
+				  ${sliderColor} 100%)`;
+			}
+
+			function setToggleAccessible(currentTarget) {
+			  const toSlider = document.querySelector('#toSlider');
+			  if (Number(currentTarget.value) <= 0 ) {
+				toSlider.style.zIndex = 2;
+			  } else {
+				toSlider.style.zIndex = 0;
+			  }
+			}
+
+			const fromSlider = document.querySelector('#fromSlider');
+			const toSlider = document.querySelector('#toSlider');
+			const fromInput = document.querySelector('#fromInput');
+			const toInput = document.querySelector('#toInput');
+			fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+			setToggleAccessible(toSlider);
+			
+			const fromSliderOccorrenze = document.querySelector('#fromSliderOccorrenze');
+			const toSliderOccorrenze = document.querySelector('#toSliderOccorrenze');
+			const fromInputOccorrenze = document.querySelector('#fromInputOccorrenze');
+			const toInputOccorrenze = document.querySelector('#toInputOccorrenze');
+			fillSlider(fromSliderOccorrenze, toSliderOccorrenze, '#C6C6C6', '#25daa5', toSliderOccorrenze);
+			setToggleAccessible(toSliderOccorrenze);
+
+			fromSlider.onmouseup = () => controlFromSlider(fromSlider, toSlider, fromInput, "anni");
+			toSlider.onmouseup = () => controlToSlider(fromSlider, toSlider, toInput, "anni");
+			fromInput.oninput = () => controlFromInput(fromSlider, fromInput, toInput, toSlider, "anni");
+			toInput.oninput = () => controlToInput(toSlider, fromInput, toInput, toSlider, "anni");
+			
+			fromSliderOccorrenze.onmouseup = () => controlFromSlider(fromSliderOccorrenze, toSliderOccorrenze, fromInputOccorrenze, "occorrenze");
+			toSliderOccorrenze.onmouseup = () => controlToSlider(fromSliderOccorrenze, toSliderOccorrenze, toInputOccorrenze, "occorrenze");
+			fromInputOccorrenze.oninput = () => controlFromInput(fromSliderOccorrenze, fromInputOccorrenze, toInputOccorrenze, toSliderOccorrenze, "occorrenze");
+			toInputOccorrenze.oninput = () => controlToInput(toSliderOccorrenze, fromInputOccorrenze, toInputOccorrenze, toSliderOccorrenze, "occorrenze");
+			
+			$('#linkDownloadCSV').click(function(){
+				downloadCSV();
+			});
+		
+			$('#fromSlider').on('input', function () {
+				$('#fromInput').val(fromSlider.value);
+			});
+			
+			$('#toSlider').on('input', function () {
+				$('#toInput').val(toSlider.value);
+			});
+			
+			$('#fromSliderOccorrenze').on('input', function () {
+				$('#fromInputOccorrenze').val(fromSliderOccorrenze.value);
+			});
+			
+			$('#toSliderOccorrenze').on('input', function () {
+				$('#toInputOccorrenze').val(toSliderOccorrenze.value);
+			});
+			
+		</script>
+
+	</body>
+</html>
+

@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Dario Santoni"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/png" href="codice-pelavicino-logo.png"/>
+		<link rel="stylesheet" href="leaflet/leaflet.css" />
+		<script src="leaflet/leaflet.js"></script>
+		<link rel="stylesheet" href="style.css"/>
+		<script src="jquery-3.7.1.min.js"></script>
+		<title>Codice Pelavicino - Ricerca dati</title>
+	</head>
+	<body>
+	
+		<div class="container">
+		
+			<header class="header">
+			
+				<a class="home-link" href="https://pelavicino.labcd.unipi.it/" title="Codice Pelavicino. Edizione Digitale" rel="home"  target="_blank">
+
+					<img id="logo" src="https://pelavicino.labcd.unipi.it/wp-content/themes/twentythirteen-child-for-pelavicino-site/img/codice-pelavicino-logo.png">
+					<div class="box-title">
+						<h1 class="site-title">Codice Pelavicino</h1>
+						<h2 class="site-description">Edizione Digitale</h2>
+					</div>
+
+				</a>
+				
+				<div class="navbar">
+				
+					<ul class="menu" id="menu">
+						<li class="li1"><a href="index.html" class="nonSelezionato">Mappa dei luoghi</a></li>
+						<li class="li1 liRicerca2_2"><a href="ricerca.html" class="selezionato">Ricerca entità nominate</a></li>
+						<li class="liRicerca2"><a href="ricerca.html" class="selezionato">Ricerca entità</a></li>
+						<li class="li2"><a href="https://pelavicino.labcd.unipi.it/" class="nonSelezionato" target="_blank">Codice Pelavicino - Edizione Digitale</a></li>
+						<li class="li2"><a href="https://pelavicino.labcd.unipi.it/evt" class="nonSelezionato" target="_blank">EVT – Codice Pelavicino Digital</a></li>
+					</ul>
+					
+				</div>
+			
+			</header>
+			
+			<div class="container1-2">
+			
+				<h1 class="entry-title">Ricerca entità nominate</h1>
+		
+				<div class="container2 containerRicerca">
+			
+					<div class="divRicerca">
+					
+						<div class="testoRicerca">
+							<p class="paragrafoRicerca1">
+								All’interno del Codice Pelavicino sono menzionate persone, enti, luoghi e altri tipi di dati. Nella pagina "codifica" si può vedere quali entità sono state marcate e 
+								quali sono andate a comporre gli indici dinamici consultabili nell’edizione.
+								Tuttavia, a prescindere da questi strumenti di corredo, la marcatura presenta un potenziale informativo ancora inesplorato, che necessita di ulteriori elaborazioni per essere usufruito. 
+								Ad esempio, la codifica delle entità di luogo non contiene di per sé le coordinate geografiche, che però sono calcolabili attraverso l’identificazione col toponimo moderno, quando presente.
+								Per rendere questi e altri dati consultabili dai lettori, le informazioni codificate sono state estratte, memorizzate all’interno di “tabelle” in formato CSV e JSON. 
+								Per ogni entità sono state calcolate le occorrenze nel testo, i documenti in cui soi trovano e il documento di prima attestazione in relazione alla data cronologica.
+								È possibile scaricare le tabelle a questo link. (sarà presto messo a disposizione)
+
+							</p>
+							<p class="paragrafoRicerca2">
+								Le tabelle con i dati relativi alle entità sono inoltre servite per realizzare un nuovo strumento di consultazione, 
+								che tramite apposita maschera, permette di effettuare ricerche sulle tabelle di dati relative alle entità, 
+								con l’ausilio di diversi filtri, con possibilità poi di scaricare il risultato della ricerca.
+							</p>
+						</div>
+						
+						<div class="barraBottone">
+							<input type="text" name="ricerca" id="ricerca" placeholder="Cerca un'entità nominata" class="ricerca ricerca1" />
+							<button id="bottoneRicerca" class="ricerca bottoneRicerca"></button>
+						</div>
+
+						<h4 class="titoloFiltri">Filtri:</h4>
+						
+						<div class="containerFiltri">
+						
+							<div class="containerFiltri1">
+							
+								<div class="filtro0">
+									<label for="checkPersona" class="labelFiltro">Persone</label><input type="checkbox" name="checkPersona" id="checkPersona" value="persone" class="checkbox checkbox1" checked>
+									<label for="selectSesso" class="labelFiltro2">Sesso</label>
+									<select name="selectSesso" id="selectSesso" class="checkbox ricerca ricerca2">
+										<option value="MF">Tutti</option>
+										<option value="M">M</option>
+										<option value="F">F</option>
+									</select>
+								</div>
+								
+								<div class="filtro">
+									<label for="checkPlace" class="labelFiltro">Luoghi</label><input type="checkbox" name="checkPlace" id="checkPlace" value="luoghi" class="checkbox checkbox1" checked>
+									<label for="checkPlaceDistrict" class="labelFiltro2">Cerca anche nei district</label><input type="checkbox" name="checkPlaceDistrict" id="checkPlaceDistrict" value="district" class="checkbox" checked>
+								</div>
+								
+								<div class="filtro">
+									<label for="checkEnte" class="labelFiltro">Enti</label><input type="checkbox" name="checkEnte" id="checkEnte" value="enti" class="checkbox checkbox1" checked>
+								</div>
+								
+								<div class="filtro">
+									<label for="checkPopolo" class="labelFiltro">Popoli</label><input type="checkbox" name="checkPopolo" id="checkPopolo" value="popoli" class="checkbox checkbox1" checked>
+								</div>
+								
+								<div class="filtro">
+									<label for="checkFamiglia" class="labelFiltro">Famiglie</label><input type="checkbox" name="checkFamiglia" id="checkFamiglia" value="famiglie" class="checkbox checkbox1" checked>
+								</div>
+							
+							</div>
+							
+							<div class="containerFiltri2">
+							
+								<div class="filtro2">
+									Prima occorrenza dall'anno
+									<input class="checkbox number ricerca  ricerca2" type="number" id="annoMin" value="900" min="900" max="1487"/>
+									all'anno
+									<input class="checkbox number ricerca  ricerca2" type="number" id="annoMax" value="1487" min="900" max="1487"/>
+								</div>
+								
+								<div class="filtro">
+									Numero di occorrenze da
+									<input class="checkbox number ricerca  ricerca2" type="number" id="occorrenzeMin" value="1" min="1" max="301"/>
+									a
+									<input class="checkbox number ricerca  ricerca2" type="number" id="occorrenzeMax" value="301" min="1" max="301"/>
+								</div>
+								
+								<div class="filtro">
+									<label for="check0Occorrenze" class="labelFiltro">Includi entità nominate con 0 occorrenze o senza prima attestazione</label><input type="checkbox" name="check0Occorrenze" id="check0Occorrenze" value="0Occorrenze" class="checkbox" checked>
+								</div>
+							
+							</div>
+						
+						</div>
+						
+						<h3 class="h3Ricerca">Risultati (<span id="avvisoRicerca">Effettua una ricerca per vedere i risultati</span><span id="containerNumeroRisultati"><span id="numeroRisultati"></span> totali, <span id="numeroRisultatiPersone"></span> Persone, <span id="numeroRisultatiLuoghi"></span> Luoghi, <span id="numeroRisultatiEnti"></span> Enti, <span id="numeroRisultatiPopoli"></span> Popoli, <span id="numeroRisultatiFamiglie"></span> Famiglie</span>):</h3>
+						<a id="linkDownloadCSV" class="linkDownloadCSV linkDownloadCSVRicerca">Scarica i risultati</a>
+						<ul class="listaRisultato" id="risultato"></ul>
+						
+						<div align="center">
+							<div class="pagination" id="pagination">
+								
+							</div>
+						</div> 
+					</div>
+				
+				</div>
+			
+			</div>
+
+			<footer class="footer">
+			
+				<div class="footer2">
+					
+						Codice Pelavicino - Edizione Digitale © 2015 - 2024 - Dario Santoni, d.santoni4@studenti.unipi.it
+						<br>
+						Questo sito è distributo sotto licenze diversificate per testi e immagini <a href="https://pelavicino.labcd.unipi.it/il-progetto/dati-editoriali-e-licenze">Creative Commons: CC BY-NC e CC BY-NCND</a>.
+						<br>
+						Per maggiori informazioni e per le autorizzazioni richieste si consulti la pagina <a href="https://pelavicino.labcd.unipi.it/il-progetto/dati-editoriali-e-licenze">dati editoriali e licenze</a>
+					
+				</div>
+				
+			</footer>
+			
+		</div>
+		
+		<script>
+		
+			$(document).ready(function(){
+			
+				var ricercaEseguita=0;
+				
+				var paginaAttiva=1;
+			
+				var defaultMinAnno=900;
+				var defaultMaxAnno=1487;
+				var defaultMinOccorrenze=1;
+				var defaultMaxOccorrenze=301;
+				
+				var datiCSV=[];
+				var datiCSVPersone=[];
+				var datiCSVLuoghi=[];
+				var datiCSVEnti=[];
+				var datiCSVPopoli=[];
+				var datiCSVFamiglie=[];
+				
+				function downloadCSV(){
+				
+					var downloadLink;
+					var blob;
+					var url;
+				
+					if($('#checkPersona').is(':checked')){
+						downloadLink = document.createElement("a");
+						blob = new Blob(["\ufeff", datiCSVPersone]);
+						url = URL.createObjectURL(blob);
+						downloadLink.href = url;
+						downloadLink.download = "risultatoRicercaPersone.csv";
+						document.body.appendChild(downloadLink);
+						downloadLink.click();
+						document.body.removeChild(downloadLink);
+					}
+					
+					if($('#checkPlace').is(':checked')){
+						downloadLink = document.createElement("a");
+						blob = new Blob(["\ufeff", datiCSVLuoghi]);
+						url = URL.createObjectURL(blob);
+						downloadLink.href = url;
+						downloadLink.download = "risultatoRicercaLuoghi.csv";
+						document.body.appendChild(downloadLink);
+						downloadLink.click();
+						document.body.removeChild(downloadLink);
+					}
+					
+					if($('#checkEnte').is(':checked')){
+						downloadLink = document.createElement("a");
+						blob = new Blob(["\ufeff", datiCSVEnti]);
+						url = URL.createObjectURL(blob);
+						downloadLink.href = url;
+						downloadLink.download = "risultatoRicercaEnti.csv";
+						document.body.appendChild(downloadLink);
+						downloadLink.click();
+						document.body.removeChild(downloadLink);
+					}
+					
+					if($('#checkPopolo').is(':checked')){
+						downloadLink = document.createElement("a");
+						blob = new Blob(["\ufeff", datiCSVPopoli]);
+						url = URL.createObjectURL(blob);
+						downloadLink.href = url;
+						downloadLink.download = "risultatoRicercaPopoli.csv";
+						document.body.appendChild(downloadLink);
+						downloadLink.click();
+						document.body.removeChild(downloadLink);
+					}
+					
+					if($('#checkFamiglia').is(':checked')){
+						downloadLink = document.createElement("a");
+						blob = new Blob(["\ufeff", datiCSVFamiglie]);
+						url = URL.createObjectURL(blob);
+						downloadLink.href = url;
+						downloadLink.download = "risultatoRicercaFamiglie.csv";
+						document.body.appendChild(downloadLink);
+						downloadLink.click();
+						document.body.removeChild(downloadLink);
+					}
+				
+				}
+				
+				var contatoreRisultati=0;
+				var contatoreRisultatiPersone=0;
+				var contatoreRisultatiLuoghi=0;
+				var contatoreRisultatiEnti=0;
+				var contatoreRisultatiPopoli=0;
+				var contatoreRisultatiFamiglie=0;
+				var listaRisultati = [];
+				
+				function eseguiRicerca(){
+						
+						$('#pagination').html('');
+				
+						paginaAttiva=1;
+						
+						listaRisultati = [];
+				
+						datiCSV=[];
+						datiCSVPersone=[];
+						datiCSVLuoghi=[];
+						datiCSVEnti=[];
+						datiCSVPopoli=[];
+						datiCSVFamiglie=[];
+						
+						contatoreRisultati=0;
+						contatoreRisultatiPersone=0;
+						contatoreRisultatiLuoghi=0;
+						contatoreRisultatiEnti=0;
+						contatoreRisultatiPopoli=0;
+						contatoreRisultatiFamiglie=0;
+						
+						var annoMin = $('#annoMin').val();
+						var annoMax = $('#annoMax').val();
+						var occorrenzeMin = $('#occorrenzeMin').val();
+						var occorrenzeMax = $('#occorrenzeMax').val();
+						
+						var check0Occorrenze;
+						
+						if($("#check0Occorrenze").prop('checked') == true){
+							check0Occorrenze=1;
+						}else{
+							check0Occorrenze=0;
+						}
+						
+						$.ajaxSetup({ cache: false });
+					
+						$('#risultato').html('');
+						var datoRicerca = $('#ricerca').val();
+						
+						/*if (datoRicerca == null || datoRicerca == "") {
+							return;
+						}*/
+						
+						var indiceValori="";
+						var indiceValoriPersone="";
+						var indiceValoriLuoghi="";
+						var indiceValoriEnti="";
+						var indiceValoriPopoli="";
+						var indiceValoriFamiglie="";
+						
+						var stringaRicerca="Stringa ricercata: "+$("#ricerca").val();
+						var indiceFiltri='"Filtri applicati: ';						
+						
+						if($('#checkPersona').is(':checked')){
+							indiceFiltri=indiceFiltri+'Persone: Sì, Sesso: ';
+						}else{
+							indiceFiltri=indiceFiltri+'Persone: No, Sesso: ';
+						}
+						indiceFiltri=indiceFiltri+$('#selectSesso').val();
+						if($('#checkPlace').is(':checked')){
+							indiceFiltri=indiceFiltri+", Luoghi: Sì, ";
+						}else{
+							indiceFiltri=indiceFiltri+", Luoghi: No, ";
+						}
+						if($('#checkEnte').is(':checked')){
+							indiceFiltri=indiceFiltri+"Enti: Sì, ";
+						}else{
+							indiceFiltri=indiceFiltri+"Enti: No, ";
+						}
+						if($('#checkPopolo').is(':checked')){
+							indiceFiltri=indiceFiltri+"Popoli: Sì, ";
+						}else{
+							indiceFiltri=indiceFiltri+"Popoli: No, ";
+						}
+						if($('#checkFamiglia').is(':checked')){
+							indiceFiltri=indiceFiltri+"Famiglie: Sì, ";
+						}else{
+							indiceFiltri=indiceFiltri+"Famiglie: No, ";
+						}
+						
+						indiceFiltri=indiceFiltri+"Prima occorrenza da: "+annoMin+", ";
+						indiceFiltri=indiceFiltri+"Prima occorrenza a: "+annoMax+", ";
+						indiceFiltri=indiceFiltri+"Numero occorrenze limite minore: "+occorrenzeMin+", ";
+						indiceFiltri=indiceFiltri+"Numero occorrenze limite maggiore: "+occorrenzeMax+", ";
+						
+						if(check0Occorrenze==1){
+							indiceFiltri=indiceFiltri+'Entità con 0 occorrenze o senza prima attestazione: Sì"';
+						}else{
+							indiceFiltri=indiceFiltri+'Entità con 0 occorrenze o senza prima attestazione: No"';
+						}
+						
+						indiceValori=indiceValori+indiceFiltri;
+						
+						if($('#checkFamiglia').is(':checked')){
+						
+							var contatoreInserimentiFamiglia=0;
+						
+							var indice="idFamiglia,orgName,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+							indice=indice+stringaRicerca+","+indiceFiltri+",\n";
+							
+							for (var i=0 ; i < jsonFamiglie["famiglie"].length ; i++){
+							
+								if(check0Occorrenze==0){
+									if ( ( ((jsonFamiglie["famiglie"][i]["idFamiglia"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonFamiglie["famiglie"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && (jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonFamiglie["famiglie"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonFamiglie["famiglie"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+									
+										contatoreInserimentiFamiglia=contatoreInserimentiFamiglia+1;
+										if(contatoreInserimentiFamiglia==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriFamiglie=indiceValoriFamiglie+indice;
+										}
+									
+										var valori=jsonFamiglie["famiglie"][i]["idFamiglia"]+',"'+jsonFamiglie["famiglie"][i]["orgName"]+'",'+jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]+","+jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]+","+jsonFamiglie["famiglie"][i]["numeroOccorrenze"]+',"'+jsonFamiglie["famiglie"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriFamiglie=indiceValoriFamiglie+valori;
+										
+										var folPrimaAttestazione="";
+										
+										for (var i2=0 ; i2 < jsonDocumenti["documenti"].length ; i2++){
+											
+											if(jsonDocumenti["documenti"][i2]["documento"]==jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]){
+												folPrimaAttestazione=jsonDocumenti["documenti"][i2]["pbFol"];
+											}
+											
+										}
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Famiglia<br><span class="nomeRisultato">idFamiglia:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["idFamiglia"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome famiglia:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Lista persone:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["person"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]+'&page='+folPrimaAttestazione+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonFamiglie["famiglie"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonFamiglie["famiglie"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonFamiglie["famiglie"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiFamiglie=contatoreRisultatiFamiglie+1;
+									}
+								}else if (check0Occorrenze==1) {
+								
+									if ( ( ((jsonFamiglie["famiglie"][i]["idFamiglia"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonFamiglie["famiglie"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && ((jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonFamiglie["famiglie"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonFamiglie["famiglie"][i]["numeroOccorrenze"]==0)) && ((jsonFamiglie["famiglie"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonFamiglie["famiglie"][i]["numeroOccorrenze"]==0))){
+									
+										contatoreInserimentiFamiglia=contatoreInserimentiFamiglia+1;
+										if(contatoreInserimentiFamiglia==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriFamiglie=indiceValoriFamiglie+indice;
+										}
+										
+										var valori=jsonFamiglie["famiglie"][i]["idFamiglia"]+',"'+jsonFamiglie["famiglie"][i]["orgName"]+'",'+jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]+","+jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]+","+jsonFamiglie["famiglie"][i]["numeroOccorrenze"]+',"'+jsonFamiglie["famiglie"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriFamiglie=indiceValoriFamiglie+valori;
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Famiglia<br><span class="nomeRisultato">idFamiglia:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["idFamiglia"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome famiglia:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Lista persone:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["person"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonFamiglie["famiglie"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonFamiglie["famiglie"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonFamiglie["famiglie"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonFamiglie["famiglie"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonFamiglie["famiglie"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiFamiglie=contatoreRisultatiFamiglie+1;
+									}
+								}
+								
+							}
+							
+							if(contatoreInserimentiFamiglia==0){
+								indiceValoriFamiglie=indiceValoriFamiglie+"Nessuna famiglia trovata,"+stringaRicerca+","+indiceFiltri;
+							}
+							
+						}
+						
+						if($('#checkEnte').is(':checked')){
+						
+							var contatoreInserimentiEnte=0;
+							
+							var indice="idEnte,orgName,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+							indice=indice+stringaRicerca+","+indiceFiltri+",\n";
+							
+							for (var i=0 ; i < jsonEnti["enti"].length ; i++){
+							
+								if(check0Occorrenze==0){
+									if ( ( ((jsonEnti["enti"][i]["idEnte"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonEnti["enti"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && (jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonEnti["enti"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonEnti["enti"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+									
+										contatoreInserimentiEnte=contatoreInserimentiEnte+1;
+										if(contatoreInserimentiEnte==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriEnti=indiceValoriEnti+indice;
+										}
+										
+										var valori=jsonEnti["enti"][i]["idEnte"]+',"'+jsonEnti["enti"][i]["orgName"]+'",'+jsonEnti["enti"][i]["documentoPrimaAttestazione"]+","+jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]+","+jsonEnti["enti"][i]["numeroOccorrenze"]+',"'+jsonEnti["enti"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriEnti=indiceValoriEnti+valori;
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Ente<br><span class="nomeRisultato">idEnte:</span> '+JSON.stringify(jsonEnti["enti"][i]["idEnte"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome ente:</span> '+JSON.stringify(jsonEnti["enti"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonEnti["enti"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Lista persone:</span> '+JSON.stringify(jsonEnti["enti"][i]["listPerson"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonEnti["enti"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonEnti["enti"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonEnti["enti"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonEnti["enti"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiEnti=contatoreRisultatiEnti+1;
+									}
+								}else if (check0Occorrenze==1) {
+								
+									if ( ( ((jsonEnti["enti"][i]["idEnte"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonEnti["enti"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && ((jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonEnti["enti"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonEnti["enti"][i]["numeroOccorrenze"]==0)) && ((jsonEnti["enti"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonEnti["enti"][i]["numeroOccorrenze"]==0))){
+									
+										contatoreInserimentiEnte=contatoreInserimentiEnte+1;
+										if(contatoreInserimentiEnte==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriEnti=indiceValoriEnti+indice;
+										}
+										
+										var valori=jsonEnti["enti"][i]["idEnte"]+',"'+jsonEnti["enti"][i]["orgName"]+'",'+jsonEnti["enti"][i]["documentoPrimaAttestazione"]+","+jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]+","+jsonEnti["enti"][i]["numeroOccorrenze"]+',"'+jsonEnti["enti"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriEnti=indiceValoriEnti+valori;
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Ente<br><span class="nomeRisultato">idEnte:</span> '+JSON.stringify(jsonEnti["enti"][i]["idEnte"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome ente:</span> '+JSON.stringify(jsonEnti["enti"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonEnti["enti"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Lista persone:</span> '+JSON.stringify(jsonEnti["enti"][i]["listPerson"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonEnti["enti"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonEnti["enti"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonEnti["enti"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonEnti["enti"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonEnti["enti"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonEnti["enti"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonEnti["enti"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiEnti=contatoreRisultatiEnti+1;
+									}
+								}
+							}
+							
+							if(contatoreInserimentiEnte==0){
+								indiceValoriEnti=indiceValoriEnti+"Nessun ente trovato,"+stringaRicerca+","+indiceFiltri;
+							}
+						
+						}
+						
+						if($('#checkPopolo').is(':checked')){
+						
+							var contatoreInserimentiPopolo=0;
+						
+							var indice="idPopolo,orgName,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+							indice=indice+stringaRicerca+","+indiceFiltri+",\n";
+						
+							for (var i=0 ; i < jsonPopoli["popoli"].length ; i++){
+								
+								if(check0Occorrenze==0){
+								
+									if ( ( ((jsonPopoli["popoli"][i]["idPopolo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPopoli["popoli"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) )	&& (jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonPopoli["popoli"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonPopoli["popoli"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+										
+										contatoreInserimentiPopolo=contatoreInserimentiPopolo+1;
+										if(contatoreInserimentiPopolo==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriPopoli=indiceValoriPopoli+indice;
+										}
+										
+										var valori="";
+										valori=jsonPopoli["popoli"][i]["idPopolo"]+',"'+jsonPopoli["popoli"][i]["orgName"]+'",'+jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]+","+jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPopoli["popoli"][i]["numeroOccorrenze"]+',"'+jsonPopoli["popoli"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriPopoli=indiceValoriPopoli+valori;
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Popolo<br><span class="nomeRisultato">idPopolo:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["idPopolo"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome popolo:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonPopoli["popoli"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonPopoli["popoli"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonPopoli["popoli"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiPopoli=contatoreRisultatiPopoli+1;
+									}
+								
+								}else if (check0Occorrenze==1) {
+								
+									if ( ( ((jsonPopoli["popoli"][i]["idPopolo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPopoli["popoli"][i]["orgName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && ((jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPopoli["popoli"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonPopoli["popoli"][i]["numeroOccorrenze"]==0)) && ((jsonPopoli["popoli"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonPopoli["popoli"][i]["numeroOccorrenze"]==0))){
+										
+										contatoreInserimentiPopolo=contatoreInserimentiPopolo+1;
+										if(contatoreInserimentiPopolo==1){
+											indiceValori=indiceValori+indice;
+											indiceValoriPopoli=indiceValoriPopoli+indice;
+										}
+										
+										var valori="";
+										valori=jsonPopoli["popoli"][i]["idPopolo"]+',"'+jsonPopoli["popoli"][i]["orgName"]+'",'+jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]+","+jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPopoli["popoli"][i]["numeroOccorrenze"]+',"'+jsonPopoli["popoli"][i]["fileOccorrenza"]+'"\n';
+										indiceValori=indiceValori+valori;
+										indiceValoriPopoli=indiceValoriPopoli+valori;
+										
+										var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Popolo<br><span class="nomeRisultato">idPopolo:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["idPopolo"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Nome popolo:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["orgName"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Descrizione:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["desc"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+										'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+										'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPopoli["popoli"][i]["numeroOccorrenze"])+
+										'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+										
+										for (var i2=0 ; i2 < jsonPopoli["popoli"][i]["fileOccorrenza"].length ; i2++){
+										
+											if(i2!=(jsonPopoli["popoli"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+											}else if(i2==(jsonPopoli["popoli"][i]["fileOccorrenza"].length)-1){
+												liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPopoli["popoli"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPopoli["popoli"][i]["fileOccorrenza"][i2])+'</a>';
+											}
+											
+										}
+										
+										liTemp=liTemp+"</li>";
+										//$('#risultato').append(liTemp);
+										listaRisultati.push(liTemp);
+										contatoreRisultati=contatoreRisultati+1;
+										contatoreRisultatiPopoli=contatoreRisultatiPopoli+1;
+									}
+									
+								}
+								
+							}
+							
+							if(contatoreInserimentiPopolo==0){
+								indiceValoriPopoli=indiceValoriPopoli+"Nessun popolo trovato,"+stringaRicerca+","+indiceFiltri;
+							}
+						
+						}
+						
+						if($('#checkPlace').is(':checked')){
+						
+							var contatoreInserimentiPlace=0;
+						
+							var indice="idLuogo,Settlement,PlaceName (Nome moderno),District,Longitudine,Latitudine,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+							indice=indice+stringaRicerca+","+indiceFiltri+",\n";
+							
+							for (var i=0 ; i < jsonPlace["luoghi"].length ; i++){
+							
+								if(check0Occorrenze==0){
+								
+									if($('#checkPlaceDistrict').is(':checked')){
+										if( ( ((jsonPlace["luoghi"][i]["idLuogo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["settlement"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["placeName"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["district"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && (jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonPlace["luoghi"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonPlace["luoghi"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+									
+											contatoreInserimentiPlace=contatoreInserimentiPlace+1;
+											if(contatoreInserimentiPlace==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriLuoghi=indiceValoriLuoghi+indice;
+											}
+											
+											var valori=jsonPlace["luoghi"][i]["idLuogo"]+',"'+jsonPlace["luoghi"][i]["settlement"]+'","'+jsonPlace["luoghi"][i]["placeName"]+'","'+jsonPlace["luoghi"][i]["district"]+'",'+jsonPlace["luoghi"][i]["longitudine"]+","+jsonPlace["luoghi"][i]["latitudine"]+","+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["numeroOccorrenze"]+',"'+jsonPlace["luoghi"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriLuoghi=indiceValoriLuoghi+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Luogo<br><span class="nomeRisultato">idLuogo:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["idLuogo"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">settlement (Toponimo antico):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["settlement"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">placeName (Toponimo moderno):</span> <a href="mappa.html?placeName='+jsonPlace["luoghi"][i]["placeName"]+'">'+JSON.stringify(jsonPlace["luoghi"][i]["placeName"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">district (Comune/zona):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["district"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Longitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["longitudine"])+
+											'<br><span class="nomeRisultato">Latitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["latitudine"])+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPlace["luoghi"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+											
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiLuoghi=contatoreRisultatiLuoghi+1;
+										}
+									}else{
+										if( ( ((jsonPlace["luoghi"][i]["idLuogo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["settlement"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["placeName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && (jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonPlace["luoghi"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonPlace["luoghi"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+									
+											contatoreInserimentiPlace=contatoreInserimentiPlace+1;
+											if(contatoreInserimentiPlace==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriLuoghi=indiceValoriLuoghi+indice;
+											}
+											
+											var valori=jsonPlace["luoghi"][i]["idLuogo"]+',"'+jsonPlace["luoghi"][i]["settlement"]+'","'+jsonPlace["luoghi"][i]["placeName"]+'","'+jsonPlace["luoghi"][i]["district"]+'",'+jsonPlace["luoghi"][i]["longitudine"]+","+jsonPlace["luoghi"][i]["latitudine"]+","+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["numeroOccorrenze"]+',"'+jsonPlace["luoghi"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriLuoghi=indiceValoriLuoghi+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Luogo<br><span class="nomeRisultato">idLuogo:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["idLuogo"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">settlement (Toponimo antico):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["settlement"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">placeName (Toponimo moderno):</span> <a href="mappa.html?placeName='+jsonPlace["luoghi"][i]["placeName"]+'">'+JSON.stringify(jsonPlace["luoghi"][i]["placeName"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">district (Comune/zona):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["district"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Longitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["longitudine"])+
+											'<br><span class="nomeRisultato">Latitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["latitudine"])+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPlace["luoghi"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+											
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiLuoghi=contatoreRisultatiLuoghi+1;
+										}
+									}
+							
+								}else if (check0Occorrenze==1) {
+								
+									if($('#checkPlaceDistrict').is(':checked')){
+										
+										if( ( ((jsonPlace["luoghi"][i]["idLuogo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["settlement"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["placeName"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["district"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && ((jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPlace["luoghi"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonPlace["luoghi"][i]["numeroOccorrenze"]==0)) && ((jsonPlace["luoghi"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonPlace["luoghi"][i]["numeroOccorrenze"]==0)) ){
+									
+											contatoreInserimentiPlace=contatoreInserimentiPlace+1;
+											if(contatoreInserimentiPlace==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriLuoghi=indiceValoriLuoghi+indice;
+											}
+											
+											var valori=jsonPlace["luoghi"][i]["idLuogo"]+',"'+jsonPlace["luoghi"][i]["settlement"]+'","'+jsonPlace["luoghi"][i]["placeName"]+'","'+jsonPlace["luoghi"][i]["district"]+'",'+jsonPlace["luoghi"][i]["longitudine"]+","+jsonPlace["luoghi"][i]["latitudine"]+","+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["numeroOccorrenze"]+',"'+jsonPlace["luoghi"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriLuoghi=indiceValoriLuoghi+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Luogo<br><span class="nomeRisultato">idLuogo:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["idLuogo"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">settlement (Toponimo antico):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["settlement"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">placeName (Toponimo moderno):</span> <a href="mappa.html?placeName='+jsonPlace["luoghi"][i]["placeName"]+'">'+JSON.stringify(jsonPlace["luoghi"][i]["placeName"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">district (Comune/zona):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["district"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Longitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["longitudine"])+
+											'<br><span class="nomeRisultato">Latitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["latitudine"])+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPlace["luoghi"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+											
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiLuoghi=contatoreRisultatiLuoghi+1;
+										}
+										
+									}else{
+									
+										if( ( ((jsonPlace["luoghi"][i]["idLuogo"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["settlement"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPlace["luoghi"][i]["placeName"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && ((jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPlace["luoghi"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonPlace["luoghi"][i]["numeroOccorrenze"]==0)) && ((jsonPlace["luoghi"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonPlace["luoghi"][i]["numeroOccorrenze"]==0)) ){
+									
+											contatoreInserimentiPlace=contatoreInserimentiPlace+1;
+											if(contatoreInserimentiPlace==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriLuoghi=indiceValoriLuoghi+indice;
+											}
+											
+											var valori=jsonPlace["luoghi"][i]["idLuogo"]+',"'+jsonPlace["luoghi"][i]["settlement"]+'","'+jsonPlace["luoghi"][i]["placeName"]+'","'+jsonPlace["luoghi"][i]["district"]+'",'+jsonPlace["luoghi"][i]["longitudine"]+","+jsonPlace["luoghi"][i]["latitudine"]+","+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPlace["luoghi"][i]["numeroOccorrenze"]+',"'+jsonPlace["luoghi"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriLuoghi=indiceValoriLuoghi+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Luogo<br><span class="nomeRisultato">idLuogo:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["idLuogo"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">settlement (Toponimo antico):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["settlement"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">placeName (Toponimo moderno):</span> <a href="mappa.html?placeName='+jsonPlace["luoghi"][i]["placeName"]+'">'+JSON.stringify(jsonPlace["luoghi"][i]["placeName"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">district (Comune/zona):</span> '+JSON.stringify(jsonPlace["luoghi"][i]["district"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Longitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["longitudine"])+
+											'<br><span class="nomeRisultato">Latitudine:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["latitudine"])+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPlace["luoghi"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPlace["luoghi"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPlace["luoghi"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPlace["luoghi"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPlace["luoghi"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+											
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiLuoghi=contatoreRisultatiLuoghi+1;
+										}
+										
+									}
+									
+								}
+							
+							}
+							
+							if(contatoreInserimentiPlace==0){
+								indiceValoriLuoghi=indiceValoriLuoghi+"Nessun luogo trovato,"+stringaRicerca+","+indiceFiltri;
+							}
+							
+						}
+						
+						if($('#checkPersona').is(':checked')){
+						
+							var contatoreInserimentiPersona=0;
+						
+							var indice="idPersona,Nome,Cognome,Sex,Documento prima attestazione,Data documento prima attestazione,Numero Occorrenze,File Occorrenza,";
+							indice=indice+stringaRicerca+","+indiceFiltri+",\n";
+						
+							var sesso=$('#selectSesso').val(); //MF, M o F
+							
+							for (var i=0 ; i < jsonPersone["persone"].length ; i++){
+							
+								if(check0Occorrenze==0){
+								
+									if (sesso=="MF" || jsonPersone["persone"][i]["sex"]==sesso){
+									
+										if( ( ((jsonPersone["persone"][i]["idPersona"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPersone["persone"][i]["nome"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPersone["persone"][i]["cognome"].toLowerCase()).includes(datoRicerca.toLowerCase())) ) && (jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin)) && (jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax)) && (jsonPersone["persone"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin)) && (jsonPersone["persone"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))){
+											
+											contatoreInserimentiPersona=contatoreInserimentiPersona+1;
+											if(contatoreInserimentiPersona==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriPersone=indiceValoriPersone+indice;
+											}
+											
+											var valori=jsonPersone["persone"][i]["idPersona"]+',"'+jsonPersone["persone"][i]["nome"]+'","'+jsonPersone["persone"][i]["cognome"]+'","'+jsonPersone["persone"][i]["sex"]+'",'+jsonPersone["persone"][i]["documentoPrimaAttestazione"]+","+jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPersone["persone"][i]["numeroOccorrenze"]+',"'+jsonPersone["persone"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriPersone=indiceValoriPersone+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Persona<br><span class="nomeRisultato">idPersona:</span> '+JSON.stringify(jsonPersone["persone"][i]["idPersona"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Nome:</span> '+JSON.stringify(jsonPersone["persone"][i]["nome"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Cognome:</span> '+JSON.stringify(jsonPersone["persone"][i]["cognome"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Sesso:</span> '+JSON.stringify(jsonPersone["persone"][i]["sex"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Mestiere:</span> '+JSON.stringify(jsonPersone["persone"][i]["occupation"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPersone["persone"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPersone["persone"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPersone["persone"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPersone["persone"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPersone["persone"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+										
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiPersone=contatoreRisultatiPersone+1;
+										}
+									
+									}
+								
+								}else if (check0Occorrenze==1) {
+									if (sesso=="MF" || jsonPersone["persone"][i]["sex"]==sesso){
+									
+										if( ( ((jsonPersone["persone"][i]["idPersona"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPersone["persone"][i]["nome"].toLowerCase()).includes(datoRicerca.toLowerCase())) || ((jsonPersone["persone"][i]["cognome"].toLowerCase()).includes(datoRicerca.toLowerCase())) )  && ((jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) >= parseInt(annoMin))||(jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"].match(/\d{4}/) <= parseInt(annoMax))||(jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]=="none")) && ((jsonPersone["persone"][i]["numeroOccorrenze"] >= parseInt(occorrenzeMin))||(jsonPersone["persone"][i]["numeroOccorrenze"]==0)) && ((jsonPersone["persone"][i]["numeroOccorrenze"] <= parseInt(occorrenzeMax))||(jsonPersone["persone"][i]["numeroOccorrenze"]==0)) ){
+											
+											contatoreInserimentiPersona=contatoreInserimentiPersona+1;
+											if(contatoreInserimentiPersona==1){
+												indiceValori=indiceValori+indice;
+												indiceValoriPersone=indiceValoriPersone+indice;
+											}
+											
+											var valori=jsonPersone["persone"][i]["idPersona"]+',"'+jsonPersone["persone"][i]["nome"]+'","'+jsonPersone["persone"][i]["cognome"]+'","'+jsonPersone["persone"][i]["sex"]+'",'+jsonPersone["persone"][i]["documentoPrimaAttestazione"]+","+jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]+","+jsonPersone["persone"][i]["numeroOccorrenze"]+',"'+jsonPersone["persone"][i]["fileOccorrenza"]+'"\n';
+											indiceValori=indiceValori+valori;
+											indiceValoriPersone=indiceValoriPersone+valori;
+											
+											var liTemp='<li class="list-group-item link-class"><span class="nomeRisultato">Tipo entità: </span>Persona<br><span class="nomeRisultato">idPersona:</span> '+JSON.stringify(jsonPersone["persone"][i]["idPersona"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Nome:</span> '+JSON.stringify(jsonPersone["persone"][i]["nome"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Cognome:</span> '+JSON.stringify(jsonPersone["persone"][i]["cognome"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Sesso:</span> '+JSON.stringify(jsonPersone["persone"][i]["sex"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Mestiere:</span> '+JSON.stringify(jsonPersone["persone"][i]["occupation"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Note:</span> '+JSON.stringify(jsonPersone["persone"][i]["note"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Documento prima attestazione:</span> <a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["documentoPrimaAttestazione"]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["documentoPrimaAttestazione"]).slice(1, -1)+'</a>'+
+											'<br><span class="nomeRisultato">Data documento prima attestazione:</span> '+JSON.stringify(jsonPersone["persone"][i]["dataDocumentoPrimaAttestazione"]).slice(1, -1)+
+											'<br><span class="nomeRisultato">Numero occorrenze:</span> '+JSON.stringify(jsonPersone["persone"][i]["numeroOccorrenze"])+
+											'<br><span class="nomeRisultato">Documenti occorrenza:</span> ';
+											
+											for (var i2=0 ; i2 < jsonPersone["persone"][i]["fileOccorrenza"].length ; i2++){
+											
+												if(i2!=(jsonPersone["persone"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["fileOccorrenza"][i2])+'</a>'+", ";
+												}else if(i2==(jsonPersone["persone"][i]["fileOccorrenza"].length)-1){
+													liTemp=liTemp+'<a href="https://pelavicino.labcd.unipi.it/evt/#doc='+jsonPersone["persone"][i]["fileOccorrenza"][i2]+'" target="_blank">'+JSON.stringify(jsonPersone["persone"][i]["fileOccorrenza"][i2])+'</a>';
+												}
+												
+											}
+										
+											liTemp=liTemp+"</li>";
+											//$('#risultato').append(liTemp);
+											listaRisultati.push(liTemp);
+											contatoreRisultati=contatoreRisultati+1;
+											contatoreRisultatiPersone=contatoreRisultatiPersone+1;
+										}
+									
+									}
+								}
+								
+							}
+							
+							if(contatoreInserimentiPersona==0){
+								indiceValoriPersone=indiceValoriPersone+"Nessuna persona trovata,"+stringaRicerca+","+indiceFiltri;
+							}
+							
+						}
+						
+						var startFrom=(paginaAttiva-1)*10;						
+						
+						for (let i=startFrom; i<startFrom+10; i++) {
+							$('#risultato').append(listaRisultati[i]);	
+						}
+						
+						$('#numeroRisultati').text(contatoreRisultati);
+						$('#numeroRisultatiPersone').text(contatoreRisultatiPersone);
+						$('#numeroRisultatiLuoghi').text(contatoreRisultatiLuoghi);
+						$('#numeroRisultatiEnti').text(contatoreRisultatiEnti);
+						$('#numeroRisultatiPopoli').text(contatoreRisultatiPopoli);
+						$('#numeroRisultatiFamiglie').text(contatoreRisultatiFamiglie);						
+						
+						datiCSV.push(indiceValori);
+						datiCSVPersone.push(indiceValoriPersone);
+						datiCSVLuoghi.push(indiceValoriLuoghi);
+						datiCSVEnti.push(indiceValoriEnti);
+						datiCSVPopoli.push(indiceValoriPopoli);
+						datiCSVFamiglie.push(indiceValoriFamiglie);
+						
+						var pagineTotali=Math.ceil(contatoreRisultati/10);
+						
+						if(pagineTotali==0){
+							pagineTotali=1;
+						}
+						
+						const paginationContainer = document.getElementById('pagination');
+						
+						if(pagineTotali){
+							for(var i=1;i<=pagineTotali;i++){
+							
+								// Crea un nuovo elemento <a>
+								const link = document.createElement('span');
+								
+								/*// Imposta l'attributo href
+								link.href = ``;*/
+								
+								// Imposta la classe CSS
+								link.className = 'pagina';
+								
+								// Imposta l'attributo id
+								link.id = `a${i}`;
+								
+								// Imposta il testo del link
+								link.textContent = i;
+								
+								// Aggiungi il link al container di paginazione
+								paginationContainer.appendChild(link);
+								
+							}
+						}
+						
+						$("#a"+paginaAttiva).addClass("active");
+						
+						ricercaEseguita=1;
+						
+						$("#avvisoRicerca").css({"display":"none"});
+						$(".linkDownloadCSV").css({"display":"inline-block"});
+						$("#containerNumeroRisultati").css({"display":"inline-block"});
+					}
+			
+				function paginazione(pagina){
+					
+					paginaAttiva=pagina;
+					
+					$(".pagina").removeClass("active");
+					
+					$("#a"+paginaAttiva).addClass("active");
+					
+					var startFrom=(paginaAttiva-1)*10;
+
+					$('#risultato').empty();				
+				
+					for (let i=startFrom; i<startFrom+10; i++) {
+						$('#risultato').append(listaRisultati[i]);	
+					}
+					
+				}
+				
+				var jsonDocumenti;
+
+				$.ajax({
+					url: "/json/outputDocJsonOrdinatoPerData.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonDocumenti = data;
+					}
+				});
+				
+				var jsonFamiglie;
+
+				$.ajax({
+					url: "/json/outputFamiglieJson.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonFamiglie = data;
+					}
+				});
+				
+				var jsonEnti;
+
+				$.ajax({
+					url: "/json/outputEntiJson.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonEnti = data;
+					}
+				});
+				
+				var jsonPopoli;
+
+				$.ajax({
+					url: "/json/outputPopoliJson.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonPopoli = data;
+					}
+				});
+				
+				var jsonPersone;
+
+				$.ajax({
+					url: "/json/outputPersoneJson.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonPersone = data;
+					}
+				});
+				
+				var jsonPlace;
+
+				$.ajax({
+					url: "/json/outputPlaceJson.json",
+					async: false,
+					dataType: 'json',
+					success: function(data) {
+						jsonPlace = data;
+					}
+				});
+				
+				$('#checkPersona').change(function() {
+					var inputElements = [].slice.call(document.querySelectorAll('.checkbox1'));
+					var checkedValue = inputElements.filter(chk => chk.checked).length;
+				
+					if(checkedValue != 0){
+					
+						if(!$('#checkPersona').is(':checked')){
+							$("#selectSesso").prop('disabled', true);
+						}else if($('#checkPersona').is(':checked')){
+							$("#selectSesso").prop('disabled', false);
+						}
+					}
+				});
+				
+				$('#checkPlace').change(function() {
+					var inputElements = [].slice.call(document.querySelectorAll('.checkbox1'));
+					var checkedValue = inputElements.filter(chk => chk.checked).length;
+				
+					if(checkedValue != 0){
+						if(!$('#checkPlace').is(':checked')){
+							$("#checkPlaceDistrict").prop('disabled', true);
+						}else if($('#checkPlace').is(':checked')){
+							$("#checkPlaceDistrict").prop('disabled', false);
+						}
+					}
+				});
+				
+				$('.number').change(function() {
+					
+					if(parseInt($(this).val()) < parseInt($(this).attr("min"))){
+						$(this).val($(this).attr("min"));
+						$(this).css({'background-color': 'white'}); 
+					}else if(parseInt($(this).val()) > parseInt($(this).attr("max"))){
+						$(this).val($(this).attr("max"));
+						$(this).css({'background-color': 'white'}); 
+					}
+					
+					if($(this).val()== null || $(this).val()== ""){
+
+						if($(this).attr('id')=="annoMin"){
+							$(this).val(defaultMinAnno);
+						}else if($(this).attr('id')=="annoMax"){
+							$(this).val(defaultMaxAnno);
+						}else if($(this).attr('id')=="occorrenzeMin"){
+							$(this).val(defaultMinOccorrenze);
+						}else if($(this).attr('id')=="occorrenzeMax"){
+							$(this).val(defaultMaxOccorrenze);
+						}
+						$(this).css({'background-color': 'white'}); 
+					}
+
+				});
+				
+				$('.number').keyup(function() {
+					
+					if((parseInt($(this).val()) < parseInt($(this).attr("min"))) ||	(parseInt($(this).val()) > parseInt($(this).attr("max")))){
+						$(this).css({'background-color': 'red'}); 
+					}else{
+						$(this).css({'background-color': 'white'}); 
+					}
+					
+					if($(this).val()== null || $(this).val()== ""){
+						$(this).css({'background-color': 'red'});
+					}
+					
+				});
+				
+				$('#ricerca').keyup(function(e){
+					if(e.keyCode == 13){
+						eseguiRicerca();
+					}
+				});
+				
+				$('.checkbox').change(function(){
+					if(ricercaEseguita != 0){
+						var inputElements = [].slice.call(document.querySelectorAll('.checkbox1'));
+						var checkedValue = inputElements.filter(chk => chk.checked).length;
+						
+						if(checkedValue == 0){
+							this.checked = true;
+							return;
+						}
+						
+						eseguiRicerca();
+					}
+				});
+				
+				$('.checkbox').keyup(function(){
+					if(ricercaEseguita != 0){
+						var inputElements = [].slice.call(document.querySelectorAll('.checkbox1'));
+						var checkedValue = inputElements.filter(chk => chk.checked).length;
+						
+						if(checkedValue == 0){
+							this.checked = true;
+							return;
+						}
+						
+						eseguiRicerca();
+					}
+				});
+
+				$('#bottoneRicerca').click(function(){
+					eseguiRicerca();
+				});
+				
+				$('#linkDownloadCSV').click(function(){
+					downloadCSV();
+				});
+
+				$(document).on('click','.pagina',function(){
+					var paginaSelezionata=$(this).text();
+					paginazione(paginaSelezionata);
+				});
+				
+			});
+		
+		</script>
+
+	</body>
+</html>
+
